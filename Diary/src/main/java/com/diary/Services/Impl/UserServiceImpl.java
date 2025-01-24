@@ -59,13 +59,16 @@ public class UserServiceImpl implements UserService {
         Optional<User> user = this.userRepository.findByMobile(signInRequest.getMobile());
         if (user.isPresent()){
             if (signInRequest.getPassword().equalsIgnoreCase(user.get().getPassword())){
+                user.get().setLastLogin(user.get().getLoginTime());
+                user.get().setLoginTime(new Date());
+                this.userRepository.save(user.get());
                 signInResponse.setId(user.get().getId());
                 signInResponse.setFirstName(user.get().getFirstName());
                 signInResponse.setLastName(user.get().getLastName());
                 signInResponse.setEmail(user.get().getEmail());
                 signInResponse.setMobile(user.get().getMobile());
                 signInResponse.setDateOfBirth(user.get().getDateOfBirth());
-                signInResponse.setLastLogin(new Date());
+                signInResponse.setLastLogin(user.get().getLastLogin());
 
                 signInResponse.setMessage("Signin Successfully");
                 signInResponse.setResponseCode(HttpStatus.OK.value());
@@ -112,7 +115,7 @@ public class UserServiceImpl implements UserService {
         MainResponse mainResponse = new MainResponse();
         Optional<User> user = this.userRepository.findById(updatePasswordRequest.getId());
         if (user.isPresent()){
-            if (updatePasswordRequest.getOldPassword().equalsIgnoreCase(user.get().getPassword())){
+            if (updatePasswordRequest.getOldPassword().equals(user.get().getPassword())){
                 user.get().setPassword(updatePasswordRequest.getNewPassword());
                 this.userRepository.save(user.get());
 

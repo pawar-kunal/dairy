@@ -25,6 +25,8 @@ public class User {
     @Temporal(TemporalType.DATE)
     private Date date;
 
+    private Date loginTime;
+
     private Date lastLogin;
 
     private String password;

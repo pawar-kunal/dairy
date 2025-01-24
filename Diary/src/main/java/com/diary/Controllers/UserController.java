@@ -48,7 +48,7 @@ public class UserController {
         }
     }
 
-    @PostMapping("/update-password")
+    @PutMapping("/update-password")
     public ResponseEntity updatePassword(@RequestBody UpdatePasswordRequest updatePasswordRequest){
         MainResponse mainResponse = this.userService.updatePassword(updatePasswordRequest);
         if (Boolean.TRUE.equals(mainResponse.getFlag())){
@@ -68,7 +68,7 @@ public class UserController {
         }
     }
 
-    @GetMapping("/verify-otp")
+    @PostMapping("/verify-otp")
     public ResponseEntity verifyOTP(@RequestBody VerifyOTPRequest verifyOTPRequest){
         MainResponse mainResponse = this.userService.verifyOTP(verifyOTPRequest);
         if (Boolean.TRUE.equals(mainResponse.getFlag())){
@@ -87,6 +87,8 @@ public class UserController {
             return new ResponseEntity(mainResponse, HttpStatus.BAD_REQUEST);
         }
     }
+
+
 
 
 }
